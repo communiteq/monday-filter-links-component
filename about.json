@@ -1,6 +1,5 @@
 {
-  "name": "Nav Links Component",
-  "about_url": "https://meta.discourse.org/t/87225",
+  "name": "Voted Links Component",
   "license_url": "https://github.com/discourse/Discourse-nav-links-component/blob/main/LICENSE",
   "component": true
 }
