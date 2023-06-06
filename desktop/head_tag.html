@@ -18,13 +18,32 @@
     api.modifyClass("component:navigation-item", {
       pluginId: 'discourse-nav-links-component',
       active: Ember.computed("contentFilterMode", "filterMode", function() {
-        let contentFilterMode = this.get("content").get("filterMode");
 
-        if (window.location.pathname === location) {
-          return contentFilterMode === filter;
-        } else {
-          return this._super(contentFilterMode, this.get("filterMode"));
+        var nmlt = settings.Nav_links,
+        sec = $.map(nmlt.split("|"), $.trim);
+
+        let contentFilterMode = this.get("content").get("filterMode");
+        const cfm_end = contentFilterMode.slice(contentFilterMode.lastIndexOf('/') + 1);
+        const wlp_end = window.location.pathname.slice(window.location.pathname.lastIndexOf('/') + 1);
+
+        for (let i = 0; i < sec.length; i++) {
+          const elements = sec[i].split(';');
+          const firstItem = elements[0].toLowerCase().replace(/\s+/g, '-');;
+          const lastItem = elements[elements.length - 1];
+
+          if (firstItem === cfm_end && lastItem == window.location.pathname) {
+            return true;
+          }
         }
+
+        if ((cfm_end == 'votes') && window.location.search && window.location.search.includes('order=votes')) {
+          return true;
+        }
+        if ((cfm_end == 'my_votes') && window.location.search && window.location.search.includes('state=my_votes')) {
+          return true;
+        }
+
+        return this._super(contentFilterMode, this.get("filterMode"));
       })
     });
   });

@@ -23,11 +23,18 @@
   api.modifyClass("component:discovery-topics-list", {
     pluginId: 'discourse-nav-links-component',
     didInsertElement() {
+      if (window.location.search && window.location.search.includes('order=votes')) {
+        $(navHeader).html("Votes" + markd);
+        return true;
+      }
+      if (window.location.search && window.location.search.includes('state=my_votes')) {
+        $(navHeader).html("My Votes" + markd);
+        return true;
+      }
       $.each(sec, function() {
         var sec = $.map(this.split(";"), $.trim),
           filter = sec[0],
           location = sec[2];
-
         if (window.location.pathname.match(sec[2])) {
           $(navHeader).html(filter + markd);
         }
